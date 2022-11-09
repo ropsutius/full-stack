@@ -1,0 +1,100 @@
+Title Submitting a note on /exampleapp/notes
+
+note left of browser:
+user types their phrase and submits
+"This is a new message"
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over server:
+server adds the new note into data.json and
+sends a redirect status 302 to /exampleapp/notes
+end note
+server-->browser: Status-code 302 (Redirect to /exampleapp/notes)
+
+note over browser:
+browser receives the redirect and sends
+a GET request to the specified URL
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+
+note over browser:
+the HTML-file contains scripts which 
+the browsers requests from the server
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+note over browser:
+browser starts executing the main.js file
+and requires the data in it.
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "This is a new message", date: "2022-11-09" }, ...]
+
+note over browser:
+The response is handled by an event handler
+which displays the data on the page
+end note
+
+
+
+Title Visiting /exampleapp/spa
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+
+note over browser:
+the HTML-file contains scripts which 
+the browsers requests from the server
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser starts executing the main.js file
+and requires the data in it.
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "Message", date: "2022-11-07" }, ...]
+
+note over browser:
+The response is handled by an event handler
+which displays the data on the page
+end note
+
+
+
+Title Submitting a note on /exampleapp/spa
+
+note left of browser:
+user types their phrase and submits
+"This is a new message"
+end note
+
+note over browser:
+The browser adds the note to the list, 
+redraws the list on the page and 
+then sends the note to the server
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over server:
+the server receives the note and
+adds it to its own list.
+It then sends back an acknowledgement
+that the note was received
+end note
+server-->browser: Status-code 201 (Received)
