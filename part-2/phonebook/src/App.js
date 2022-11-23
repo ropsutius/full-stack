@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import service from './service';
-import People from './People';
-import Form from './Form';
-import Filter from './Filter';
-import Error from './Error';
+import personService from './services/personService';
+import People from './components/People';
+import Form from './components/Form';
+import Filter from './components/Filter';
+import Error from './components/Error';
 
 const App = () => {
   const [persons, setPeople] = useState([]);
@@ -13,7 +13,7 @@ const App = () => {
   const [message, setMessage] = useState({ message: null, isError: false });
 
   useEffect(() => {
-    service.getAll().then((allPeople) => {
+    personService.getAll().then((allPeople) => {
       setPeople(allPeople);
     });
   }, []);
@@ -51,7 +51,7 @@ const App = () => {
           false
         )
       ) {
-        service
+        personService
           .update(newPerson.id, newPerson)
           .then((modifiedPerson) => {
             setPeople(
@@ -69,7 +69,7 @@ const App = () => {
           );
       }
     } else {
-      service.create(newPerson).then((newPerson) => {
+      personService.create(newPerson).then((newPerson) => {
         setPeople(persons.concat(newPerson));
         sendMessage(`Added ${newPerson.name}`);
       });
@@ -82,7 +82,7 @@ const App = () => {
   const handleDelete = (id) => {
     const deletedPerson = persons.find((person) => person.id === id);
     if (window.confirm(`Delete ${deletedPerson.name}?`)) {
-      service.remove(id).then();
+      personService.remove(id).then();
       setPeople(persons.filter((person) => person.id !== id));
     }
   };
