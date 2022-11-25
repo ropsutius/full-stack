@@ -51,7 +51,7 @@ const App = () => {
           })
           .catch((error) => {
             notify(
-              `the person '${existingPerson.name}' was had already been from the server`,
+              `the person '${existingPerson.name}' was had already been removed from the server`,
               'alert'
             );
             setPersons(persons.filter((p) => p.id !== existingPerson.id));
@@ -59,12 +59,15 @@ const App = () => {
 
         return;
       }
+    } else {
+      personService.create(newPerson).then((savedPerson) => {
+        console.log(savedPerson);
+        if (typeof savedPerson === 'object') {
+          setPersons(persons.concat(savedPerson));
+          notify(`Added ${savedPerson.name}`);
+        } else notify(savedPerson, 'alert');
+      });
     }
-
-    personService.create(newPerson).then((savedPerson) => {
-      setPersons(persons.concat(savedPerson));
-      notify(`Added ${savedPerson.name}`);
-    });
   };
 
   const deletePerson = (id) => {
