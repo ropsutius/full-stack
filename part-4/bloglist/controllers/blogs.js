@@ -29,6 +29,7 @@ blogsRouter.post('/', userExtractor, async (req, res) => {
 
 blogsRouter.delete('/:id', userExtractor, async (req, res) => {
   const blog = await Blog.findById(req.params.id);
+  if (!blog) return res.status(404).json({ error: 'Blog not found' });
 
   if (req.user.id.toString() !== blog.user.toString())
     return res.status(401).json({ error: 'Invalid token' });
