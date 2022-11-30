@@ -1,9 +1,20 @@
 const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
 const User = require('../models/user');
 
-const errorHandler = (error, req, res, next) => {
-  //console.error(error.name, error.message);
+morgan.token('person', (req) => {
+  if (
+    req.body &&
+    Object.keys(req.body).length === 0 &&
+    Object.getPrototypeOf(req.body) === Object.prototype
+  )
+    return '';
+  else return JSON.stringify(req.body);
+});
+const s = `:method :url :status :res[content-length] - :response-time ms :person`;
+const logger = morgan(s);
 
+const errorHandler = (error, req, res, next) => {
   if (error.name === 'CastError')
     return res.status(400).send({ error: 'malformatted id' });
   else if (error.name === 'ValidationError')
@@ -33,4 +44,4 @@ const userExtractor = async (req, res, next) => {
   next();
 };
 
-module.exports = { errorHandler, tokenExtractor, userExtractor };
+module.exports = { logger, errorHandler, tokenExtractor, userExtractor };
