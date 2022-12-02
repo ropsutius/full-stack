@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const User = require('../models/user');
 
-morgan.token('person', (req) => {
+morgan.token('blog', (req) => {
   if (
     req.body &&
     Object.keys(req.body).length === 0 &&
@@ -11,7 +11,7 @@ morgan.token('person', (req) => {
     return '';
   else return JSON.stringify(req.body);
 });
-const s = `:method :url :status :res[content-length] - :response-time ms :person`;
+const s = `:method :url :status :res[content-length] - :response-time ms :blog`;
 const logger = morgan(s);
 
 const errorHandler = (error, req, res, next) => {
