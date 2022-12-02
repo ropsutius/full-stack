@@ -40,13 +40,23 @@ const Blog = ({ blog, updateBlog, removeBlog, notify, user }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}{' '}
-      <button onClick={() => setVisibility(!visible)}>{buttonLabel}</button>
-      <div style={showWhenVisible}>
-        {blog.url} <br />
-        likes {blog.likes} <button onClick={handleLike}>like</button>
+      <div>
+        {blog.title} {blog.author}{' '}
+        <button id="toggle-visibility" onClick={() => setVisibility(!visible)}>
+          {buttonLabel}
+        </button>
+      </div>
+      <div style={showWhenVisible} className="hidden-info">
+        <span>{blog.url}</span>
         <br />
-        {blog.user.name}
+        <span>
+          likes {blog.likes}{' '}
+          <button id="add-like" onClick={handleLike}>
+            like
+          </button>
+        </span>
+        <br />
+        <span>{blog.user.name}</span>
         <button style={showWhenUser} onClick={handleRemove}>
           remove
         </button>
